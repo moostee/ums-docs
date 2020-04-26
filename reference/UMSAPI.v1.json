@@ -3,11 +3,11 @@
   "info": {
     "title": "UMSAPI",
     "version": "1.0",
-    "description": "User Management System is a microservice that handles the user authentication for any integration with any application that requires user authentication/ management functionality.",
     "contact": {
       "name": "UBAInnovate",
       "email": "ubainnovate@ubagroup.com"
-    }
+    },
+    "description": "User Management System is a microservice that handles the user authentication for any integration with any application that requires user authentication/ management functionality."
   },
   "servers": [
     {
@@ -15,6 +15,1662 @@
     }
   ],
   "paths": {
+    "/Account/ThirdPartySignIn?thirdPartyName=<string>&redirectUrl=<string>/{thirdPartyName}": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "thirdPartyName",
+            "description": "Third party name e.g google, facebook, twitter etc.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "redirectUrl",
+            "description": "Redirect Url of the application after authentication",
+            "required": true
+          }
+        ],
+        "description": "This endpoint allows third party sign up or sign in.",
+        "responses": {
+          "200": {
+            "description": "OK- The token and refresh token is sent to the redirectUrl as a query parameter",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {}
+              },
+              "text/html": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "third party name / redirect url must not be empty",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Client cannot use third party authentication service",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token.",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      }
+    },
+    "/Account/ChangePassword": {
+      "post": {
+        "summary": "Change user password",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "Token": {
+                          "type": "string"
+                        },
+                        "RefreshToken": {
+                          "type": "string"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "Username": {
+                              "type": "string"
+                            },
+                            "FirstName": {
+                              "type": "string"
+                            },
+                            "LastName": {
+                              "type": "string"
+                            },
+                            "RoleName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_66797191df9d4ef49d0204c8adc2e381",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RvcnQiOiJ7XCJJZFwiOlwiMGFhOTk0ZDYtYjM1Ni00N2NlLWJmMGQtMDhkN2NjYmQ0MGJiXCIsXCJVc2VybmFtZVwiOlwibWFyb0B1YmFpbm5vdmF0ZS5jb21cIixcIlJvbGVOYW1lXCI6XCJVc2VyXCIsXCJGaXJzdE5hbWVcIjpcIk9sdW1pZGVcIixcIkxhc3ROYW1lXCI6XCJBZG1pblwifSIsImp0aSI6ImE2ODE5ZWQzLTYzZmQtNDAwZC1iNGM3LTEyMTIyNjhlYjhmOCIsInJvbGUiOiJVc2VyIiwibmJmIjoxNTg3OTEwNDc4LCJleHAiOjE1ODc5MTA1OTgsImlhdCI6MTU4NzkxMDQ3OH0.V2iKACj2Rj0OfC6BF6MwWPh1HkmHoZdOOgsNbDNeENI",
+                        "RefreshToken": "uVQuz8WDzwBT1rBp8peqYMHfp5kzvAv/Z1OmjVkWzeQ=",
+                        "ExpiresIn": 119,
+                        "User": {
+                          "Id": "0aa994d6-b356-47ce-bf0d-08d7ccbd40bb",
+                          "Username": "maro@ubainnovate.com",
+                          "RoleName": "User",
+                          "FirstName": "Olumide",
+                          "LastName": "Admin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Password must be a minimum of eight(8) characters",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Pin must have a between 4 and 6 numeric characters",
+                      "Data": null
+                    }
+                  },
+                  "example-3": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "This link has already been used",
+                      "Data": null
+                    }
+                  },
+                  "example-4 ": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Unable to Change Password",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-Account-ChangePassword",
+        "description": "Change User password",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resetToken": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "resetToken": "<string>",
+                    "username": "<string>",
+                    "password": "<string>"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      }
+    },
+    "/Account/RequestPasswordReset": {
+      "post": {
+        "summary": "Request for password reset",
+        "responses": {
+          "200": {
+            "description": "OK - Email is sent to the email address of the user who made the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_a6d747f1363942a28fcf448885c5610a",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "ResetPasswordUrl": "https://moosteedesign.com?username=maro@ubainnovate.com&resetToken=MDEvMDEvMDAwMSAxMjowMDowMCBBTQ=="
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid Reset Password Url, Enter a valid Url",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Username cannot be blank",
+                      "Data": null
+                    }
+                  },
+                  "example-3": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "User not found",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-Account-RequestPasswordReset",
+        "description": "Request password reset",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "resetPasswordUrl": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "resetPasswordUrl"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "username": "<string>",
+                    "resetPasswordUrl": "<string>"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      }
+    },
+    "/Account/SignUpWithOtp": {
+      "post": {
+        "summary": "Sign Up with OTP ",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "Token": {
+                          "type": "string"
+                        },
+                        "RefreshToken": {
+                          "type": "string"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "Firstname": {
+                              "type": "string"
+                            },
+                            "LastName": {
+                              "type": "string"
+                            },
+                            "UserName": {
+                              "type": "string"
+                            },
+                            "RoleName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_ce45b53bf00c478fa036e37b016ba978",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RvcnQiOiJ7XCJJZFwiOlwiNjYzNmJkZWEtYjBjMy00OWE4LWExMjUtMDhkN2U5ZDA3NjAzXCIsXCJVc2VybmFtZVwiOlwiMDcwMzEzNDkzOTBcIixcIlJvbGVOYW1lXCI6XCJVc2VyXCIsXCJGaXJzdE5hbWVcIjpcIk11c3RhcGhhXCIsXCJMYXN0TmFtZVwiOlwiQWtpbnNvbGFcIn0iLCJqdGkiOiJhNmUxNDg2MS1mMGVkLTQ5MGUtOWJhNS1lZjllMGQ1NGNhM2MiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTU4Nzg5ODU4NCwiZXhwIjoxNTg3ODk5MTg0LCJpYXQiOjE1ODc4OTg1ODR9.NajhRoiUVn0_ueQVBvphHsf40AAZEj511QvzdSQ9pgA",
+                        "RefreshToken": "1/2+ee71c2oMKUSSuiFoRYraHC8QVLNg1yuQN66dKO0=",
+                        "ExpiresIn": 599,
+                        "User": {
+                          "Id": "6636bdea-b0c3-49a8-a125-08d7e9d07603",
+                          "Username": "07031349390",
+                          "RoleName": "User",
+                          "FirstName": "Mustapha",
+                          "LastName": "Akinsola"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-Account-SignUpWithOtp",
+        "description": "Sign Up user with OTP i.e Validating user phone number and signing up the user.",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "firstname": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "otpCode": {
+                    "type": "string"
+                  },
+                  "pin": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "profilePicture": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "otpCode"
+                ]
+              },
+              "examples": {
+                "body sample": {
+                  "value": {
+                    "username": "<string>",
+                    "email": "<string>",
+                    "mobileNumber": "<string>",
+                    "dialCode": "<string>",
+                    "password": "<string>",
+                    "pin": "<string>",
+                    "firstName": "<string>",
+                    "lastName": "<string>",
+                    "profilePicture": "<string>",
+                    "otpCode": "<integer>"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      }
+    },
+    "/Account/GetOtp": {
+      "post": {
+        "summary": "Send OTP to user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_ed2fbe7037c64ad9b06a94171c886a7e",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "Message": "An Otp has been sent to your Mobile / Email"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-Account-GetOtp",
+        "description": "Request for OTP",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "phoneNumber"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "phoneNumber": "07031349390"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      }
+    },
+    "/Account/ValidateUser": {
+      "get": {
+        "summary": "Validate user exists",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "IsExists": {
+                          "type": "string"
+                        },
+                        "Username": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_065d6136f86243588955788a40258de0",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "IsExists": true,
+                        "Username": "mustapha@ums.com"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_57522d01de1b4a95b3120f9543f8eb4a",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_b85385f555814dfeb38514962b1e71ca",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "User not found",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-Account-ValidateUser",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "username",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      },
+      "parameters": []
+    },
+    "/Account/RefreshToken": {
+      "post": {
+        "summary": "Refresh token",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "Token": {
+                          "type": "string"
+                        },
+                        "RefreshToken": {
+                          "type": "string"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "Username": {
+                              "type": "string"
+                            },
+                            "FirstName": {
+                              "type": "string"
+                            },
+                            "LastName": {
+                              "type": "string"
+                            },
+                            "RoleName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_31debe215aa746b8b47b86b87cf34152",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RvcnQiOiJ7XCJJZFwiOlwiMGFhOTk0ZDYtYjM1Ni00N2NlLWJmMGQtMDhkN2NjYmQ0MGJiXCIsXCJVc2VybmFtZVwiOlwibWFyb0B1YmFpbm5vdmF0ZS5jb21cIixcIlJvbGVOYW1lXCI6XCJVc2VyXCIsXCJGaXJzdE5hbWVcIjpcIk9sdW1pZGVcIixcIkxhc3ROYW1lXCI6XCJBZG1pblwifSIsImp0aSI6ImY4NTNmMDg1LWY3YTgtNDc2Mi05NjRlLTBiY2U2NjdkN2VhNiIsInJvbGUiOiJVc2VyIiwibmJmIjoxNTg3OTA0ODg1LCJleHAiOjE1ODc5MDUwMDUsImlhdCI6MTU4NzkwNDg4NX0.F_QlAFypvjhfsHxGhTen9WCrdn3kAfr5M3Xu1TpkFF0",
+                        "RefreshToken": "6yIEgQhkk/zuP1ly7TxjZQD0T4N8uAFxvwugiWWscoM=",
+                        "ExpiresIn": 119,
+                        "User": {
+                          "Id": "0aa994d6-b356-47ce-bf0d-08d7ccbd40bb",
+                          "Username": "maro@ubainnovate.com",
+                          "RoleName": "User",
+                          "FirstName": "Olumide",
+                          "LastName": "Admin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_1c88c75df5544c21b394e198355f17cc",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Token hasn't expired yet",
+                      "Data": null
+                    }
+                  },
+                  "example-2 ": {
+                    "value": {
+                      "RequestId": "_1c88c75df5544c21b394e198355f17cc",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "RefreshToken does not exist / is not usable for this user",
+                      "Data": null
+                    }
+                  },
+                  "example-3": {
+                    "value": {
+                      "RequestId": "_1c88c75df5544c21b394e198355f17cc",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Refresh token has expired",
+                      "Data": null
+                    }
+                  },
+                  "example-4": {
+                    "value": {
+                      "RequestId": "_1c88c75df5544c21b394e198355f17cc",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Refresh token has expired",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_f0e7a6ceb497462bb69271af8d62191d",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_f0e7a6ceb497462bb69271af8d62191d",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-Account-RefreshToken",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "description": "Refresh user token without the user signing up.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  },
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "token": "<string>",
+                    "refreshToken": "<string>"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      }
+    },
+    "/Account/ValidateToken": {
+      "post": {
+        "summary": "ValidateToken",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_14402c4d17d142cabf61744653645793",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_43033da9c7b7407693d03cf9c09ca4e5",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Token has expired",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_8f4480d0845b4477abc3577b9f537208",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid token",
+                      "Data": null
+                    }
+                  },
+                  "example-4": {
+                    "value": {
+                      "RequestId": "_43033da9c7b7407693d03cf9c09ca4e5",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Client origin not listed",
+                      "Data": null
+                    }
+                  },
+                  "example-5  ": {
+                    "value": {
+                      "RequestId": "_43033da9c7b7407693d03cf9c09ca4e5",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "client cannot access this resource",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_f0e7a6ceb497462bb69271af8d62191d",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_f0e7a6ceb497462bb69271af8d62191d",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invaid access token",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-api-Account-ValidateToken",
+        "description": "Validate user token",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "token",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      },
+      "parameters": []
+    },
+    "/Account/SignUp": {
+      "post": {
+        "summary": "SignUp a User",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "Token": {
+                          "type": "string"
+                        },
+                        "RefreshToken": {
+                          "type": "string"
+                        },
+                        "ExpiresIn": {
+                          "type": "integer"
+                        },
+                        "User": {
+                          "type": "object",
+                          "properties": {
+                            "FirstName": {
+                              "type": "string"
+                            },
+                            "LastName": {
+                              "type": "string"
+                            },
+                            "RoleName": {
+                              "type": "string"
+                            },
+                            "Username": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_a57183a281ba4207a08e7db8ba7b0e53",
+                      "ResponseCode": "00",
+                      "ResponseMessage": "Successful",
+                      "Data": {
+                        "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RvcnQiOiJ7XCJJZFwiOlwiYTc1MmU3ZGQtZGJiNi00MTI5LTUwMjctMDhkN2U1ZTRlYWRjXCIsXCJVc2VybmFtZVwiOlwiYWRtaW5Ac2VydmljZWV2ZW50cy5jb21cIixcIlJvbGVOYW1lXCI6XCJBZG1pblwiLFwiRmlyc3ROYW1lXCI6bnVsbCxcIkxhc3ROYW1lXCI6bnVsbH0iLCJqdGkiOiJiZmU1NmU0NS0zMjlmLTQ2MmQtODhkZi0zYmQzOWRmNGY1MGYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE1ODc0NzY2MjMsImV4cCI6MTU4NzQ3OTMyMywiaWF0IjoxNTg3NDc2NjIzfQ.KtZAyDI6piF7DFZ8QVg8lMRWxY3YklFtpF2BFBg5pDg",
+                        "RefreshToken": "R1SYLb2KNVKdXmed0TYZl2LmKe5Pz7BDbcyXn4CnE/8=",
+                        "ExpiresIn": 2699,
+                        "User": {
+                          "Id": "a752e7dd-dbb6-4129-5027-08d7e5e4eadc",
+                          "Username": "admin@serviceevents.com",
+                          "RoleName": "Admin",
+                          "FirstName": null,
+                          "LastName": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1  ": {
+                    "value": {
+                      "RequestId": "_35ad6c7ce7fa4cf7ae40865c10780b72",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Username is already in use",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_35ad6c7ce7fa4cf7ae40865c10780b72",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Email is already in use",
+                      "Data": null
+                    }
+                  },
+                  "example-3": {
+                    "value": {
+                      "RequestId": "_35ad6c7ce7fa4cf7ae40865c10780b72",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Mobile Number is already in use",
+                      "Data": null
+                    }
+                  },
+                  "example-4": {
+                    "value": {
+                      "RequestId": "_35ad6c7ce7fa4cf7ae40865c10780b72",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Username is already in use",
+                      "Data": null
+                    }
+                  },
+                  "example-5": {
+                    "value": {
+                      "RequestId": "_35ad6c7ce7fa4cf7ae40865c10780b72",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Email Address not in the right format",
+                      "Data": null
+                    }
+                  },
+                  "example-6": {
+                    "value": {
+                      "RequestId": "_27f9f0b459fc4e488fb33e02e7a03a09",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Email Address/ Password cannot be empty for your authentication type",
+                      "Data": null
+                    }
+                  },
+                  "example-7": {
+                    "value": {
+                      "RequestId": "_27f9f0b459fc4e488fb33e02e7a03a09",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Username/ Password cannot be empty for your authentication type",
+                      "Data": null
+                    }
+                  },
+                  "example-8": {
+                    "value": {
+                      "RequestId": "_27f9f0b459fc4e488fb33e02e7a03a09",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Mobile/ Pin cannot be empty for your authentication type",
+                      "Data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_f0e7a6ceb497462bb69271af8d62191d",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "X-ClientSecret header is required",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_d3d431a3db0a444292ed993fa6acd494",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token",
+                      "Data": null
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-api-Account-SignUp",
+        "description": "Sign Up a User",
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "mobileNumber": {
+                    "type": "string"
+                  },
+                  "dialCode": {
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "pin": {
+                    "type": "string"
+                  },
+                  "profilePicture": {
+                    "type": "string"
+                  },
+                  "otpCode": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {}
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "Api",
+          "Account"
+        ]
+      },
+      "parameters": []
+    },
     "/Account/SignIn": {
       "post": {
         "summary": "Sign In User",
@@ -101,7 +1757,62 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "RequestId": {
+                      "type": "string"
+                    },
+                    "ResponseCode": {
+                      "type": "string"
+                    },
+                    "ResponseMessage": {
+                      "type": "string"
+                    },
+                    "Data": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "RequestId": "_78caef2ea9b74f4186cc4bc50dd3a988",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid login details",
+                      "Data": null
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_35ad6c7ce7fa4cf7ae40865c10780b72",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Email Address not in the right format",
+                      "Data": null
+                    }
+                  },
+                  "example-3": {
+                    "value": {
+                      "RequestId": "_27f9f0b459fc4e488fb33e02e7a03a09",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Email Address/ Password cannot be empty for your authentication type",
+                      "Data": null
+                    }
+                  },
+                  "example-4 ": {
+                    "value": {
+                      "RequestId": "_27f9f0b459fc4e488fb33e02e7a03a09",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Username/ Password cannot be empty for your authentication type",
+                      "Data": null
+                    }
+                  },
+                  "example-5": {
+                    "value": {
+                      "RequestId": "_27f9f0b459fc4e488fb33e02e7a03a09",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Mobile/ Pin cannot be empty for your authentication type",
+                      "Data": null
+                    }
+                  }
                 }
               }
             }
@@ -123,7 +1834,7 @@
                       "type": "string"
                     },
                     "Data": {
-                      "type": "string"
+                      "type": "null"
                     }
                   }
                 },
@@ -135,6 +1846,14 @@
                       "ResponseMessage": "X-ClientSecret header is required",
                       "Data": null
                     }
+                  },
+                  "example-2": {
+                    "value": {
+                      "RequestId": "_d3d431a3db0a444292ed993fa6acd494",
+                      "ResponseCode": "02",
+                      "ResponseMessage": "Invalid access token",
+                      "Data": null
+                    }
                   }
                 }
               }
@@ -142,9 +1861,6 @@
           }
         },
         "operationId": "post-api-Account-SignIn",
-        "tags": [
-          "Account"
-        ],
         "description": "Sign In a User",
         "security": [
           {
@@ -195,307 +1911,13 @@
               }
             }
           }
-        }
-      },
-      "parameters": []
-    },
-    "/Account/SignUp": {
-      "post": {
-        "summary": "SignUp a User",
-        "tags": [
-          "Account"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "RequestId": {
-                      "type": "string"
-                    },
-                    "ResponseCode": {
-                      "type": "string"
-                    },
-                    "ResponseMessage": {
-                      "type": "string"
-                    },
-                    "Data": {
-                      "type": "object",
-                      "properties": {
-                        "Token": {
-                          "type": "string"
-                        },
-                        "RefreshToken": {
-                          "type": "string"
-                        },
-                        "ExpiresIn": {
-                          "type": "integer"
-                        },
-                        "User": {
-                          "type": "object",
-                          "properties": {
-                            "FirstName": {
-                              "type": "string"
-                            },
-                            "LastName": {
-                              "type": "string"
-                            },
-                            "RoleName": {
-                              "type": "string"
-                            },
-                            "Username": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "RequestId": "_a57183a281ba4207a08e7db8ba7b0e53",
-                      "ResponseCode": "00",
-                      "ResponseMessage": "Successful",
-                      "Data": {
-                        "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RvcnQiOiJ7XCJJZFwiOlwiYTc1MmU3ZGQtZGJiNi00MTI5LTUwMjctMDhkN2U1ZTRlYWRjXCIsXCJVc2VybmFtZVwiOlwiYWRtaW5Ac2VydmljZWV2ZW50cy5jb21cIixcIlJvbGVOYW1lXCI6XCJBZG1pblwiLFwiRmlyc3ROYW1lXCI6bnVsbCxcIkxhc3ROYW1lXCI6bnVsbH0iLCJqdGkiOiJiZmU1NmU0NS0zMjlmLTQ2MmQtODhkZi0zYmQzOWRmNGY1MGYiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE1ODc0NzY2MjMsImV4cCI6MTU4NzQ3OTMyMywiaWF0IjoxNTg3NDc2NjIzfQ.KtZAyDI6piF7DFZ8QVg8lMRWxY3YklFtpF2BFBg5pDg",
-                        "RefreshToken": "R1SYLb2KNVKdXmed0TYZl2LmKe5Pz7BDbcyXn4CnE/8=",
-                        "ExpiresIn": 2699,
-                        "User": {
-                          "Id": "a752e7dd-dbb6-4129-5027-08d7e5e4eadc",
-                          "Username": "admin@serviceevents.com",
-                          "RoleName": "Admin",
-                          "FirstName": null,
-                          "LastName": null
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "RequestId": {
-                      "type": "string"
-                    },
-                    "ResponseCode": {
-                      "type": "string"
-                    },
-                    "ResponseMessage": {
-                      "type": "string"
-                    },
-                    "Data": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "RequestId": "_f0e7a6ceb497462bb69271af8d62191d",
-                      "ResponseCode": "02",
-                      "ResponseMessage": "X-ClientSecret header is required",
-                      "Data": null
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {}
-                }
-              }
-            }
-          }
         },
-        "operationId": "post-api-Account-SignUp",
-        "description": "Sign Up a User",
-        "security": [
-          {
-            "qweredsdfghyuiuytgfghjkiuyttyu=": []
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "mobileNumber": {
-                    "type": "string"
-                  },
-                  "dialCode": {
-                    "type": "string"
-                  },
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
-                  "pin": {
-                    "type": "string"
-                  },
-                  "profilePicture": {
-                    "type": "string"
-                  },
-                  "otpCode": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {
-                "example-1": {}
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            }
-          },
-          "description": ""
-        }
-      },
-      "parameters": []
-    },
-    "/Account/ValidateToken": {
-      "post": {
-        "summary": "ValidateToken",
         "tags": [
+          "Api",
           "Account"
-        ],
-        "responses": {},
-        "operationId": "post-api-Account-ValidateToken"
-      },
-      "parameters": []
-    },
-    "/Account/RefreshToken": {
-      "post": {
-        "summary": "Refresh token",
-        "tags": [
-          "Account"
-        ],
-        "responses": {},
-        "operationId": "post-Account-RefreshToken"
-      }
-    },
-    "/Account/ValidateUser": {
-      "get": {
-        "summary": "Validate user exists",
-        "tags": [
-          "Account"
-        ],
-        "responses": {},
-        "operationId": "get-Account-ValidateUser",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "username",
-            "required": true
-          }
         ]
       },
       "parameters": []
-    },
-    "/Account/GetOtp": {
-      "post": {
-        "summary": "Send OTP to user",
-        "tags": [
-          "Account"
-        ],
-        "responses": {},
-        "operationId": "post-Account-GetOtp"
-      }
-    },
-    "/Account/SignUpWithOtp": {
-      "post": {
-        "summary": "Sign Up with OTP ",
-        "tags": [
-          "Account"
-        ],
-        "responses": {},
-        "operationId": "post-Account-SignUpWithOtp"
-      }
-    },
-    "/Account/RequestPasswordReset": {
-      "post": {
-        "summary": "Request for password reset",
-        "tags": [
-          "Account"
-        ],
-        "responses": {},
-        "operationId": "post-Account-RequestPasswordReset"
-      }
-    },
-    "/Account/ChangePassword": {
-      "post": {
-        "summary": "Change user password",
-        "tags": [
-          "Account"
-        ],
-        "responses": {},
-        "operationId": "post-Account-ChangePassword"
-      }
-    },
-    "/Account/ThirdPartySignIn?thirdPartyName=<string>&redirectUrl=<string>/{thirdPartyName}": {
-      "get": {
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "thirdPartyName",
-            "description": "Third party name e.g google, facebook, twitter etc.",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "redirectUrl",
-            "description": "Redirect Url of the application after authentication",
-            "required": true
-          }
-        ],
-        "description": "This endpoint allows third party sign up or sign in."
-      }
     }
   },
   "components": {
