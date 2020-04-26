@@ -212,7 +212,12 @@
                   "password": {
                     "type": "string"
                   }
-                }
+                },
+                "required": [
+                  "resetToken",
+                  "username",
+                  "password"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -1048,7 +1053,11 @@
                   "refreshToken": {
                     "type": "string"
                   }
-                }
+                },
+                "required": [
+                  "token",
+                  "refreshToken"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -1771,27 +1780,10 @@
     },
     "/Account/ThirdPartySignIn": {
       "get": {
-        "parameters": [
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "thirdPartyName",
-            "description": "Third party name e.g google, facebook, twitter etc.",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "redirectUrl",
-            "description": "Redirect Url of the application after authentication",
-            "required": true
-          }
+        "tags": [
+          "Api",
+          "Account"
         ],
-        "description": "This endpoint allows third party sign up or sign in.",
         "responses": {
           "200": {
             "description": "OK- The token and refresh token is sent to the redirectUrl as a query parameter",
@@ -1898,6 +1890,11 @@
             }
           }
         },
+        "security": [
+          {
+            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1908,14 +1905,26 @@
             }
           }
         },
-        "security": [
+        "description": "This endpoint allows third party sign up or sign in.",
+        "parameters": [
           {
-            "qweredsdfghyuiuytgfghjkiuyttyu=": []
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "thirdPartyName",
+            "description": "Third party name e.g google, facebook, twitter etc.",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "redirectUrl",
+            "description": "Redirect Url of the application after authentication",
+            "required": true
           }
-        ],
-        "tags": [
-          "Api",
-          "Account"
         ]
       }
     }
